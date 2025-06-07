@@ -2,21 +2,120 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduScopeAI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduScopeAI</title>
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #preview {
+      max-width: 100%;
+      height: auto;
+      display: none;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
-<body>
-    <h2>Upload a Microscope Image</h2>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="image" required>
-        <button type="submit">Identify</button>
-    </form>
-    {% if result %}
-    <h3>Result: {{ result }}</h3>
-    <img src="/static/upload.jpg" width="300">
-    {% endif %}
+<body class="bg-light">
+  <div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+      <h1 class="fw-bold text-primary">🔬 EduScopeAI</h1>
+      <p class="text-muted">A Learning Model for Discovering
+Microorganisms Endemic to Davao City</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <form method="post" enctype="multipart/form-data" class="p-4 bg-white shadow rounded">
+          <div class="row g-3 align-items-center">
+            <div class="col-md-6">
+              <label for="image" class="form-label">Upload Microscope Image:</label>
+              <input type="file" name="image" id="image" class="form-control" accept="image/*" required onchange="previewImage(event)">
+            </div>
+            <div class="col-md-6 text-center">
+              <img id="preview" src="#" alt="Image Preview" class="img-fluid rounded" />
+            </div>
+          </div>
+          <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary px-4">Identify</button>
+          </div>
+        </form>
+
+        <!-- AI Result -->
+        {% if result %}
+        <div class="mt-5 p-4 bg-white shadow rounded">
+          <h4 class="text-success">🧠 Prediction Result: <span class="fw-bold">{{ result }}</span></h4>
+
+          <!-- Dummy Prediction Data -->
+          <div class="row mt-4">
+            <!-- Left Column: Image -->
+            <div class="col-md-5 text-center">
+              <img src="/static/upload.jpg" class="img-fluid rounded border" alt="Uploaded Image">
+            </div>
+
+            <!-- Right Column: AI Info -->
+            <div class="col-md-7">
+              <div class="card border-0">
+                <div class="card-body">
+                  <h5 class="card-title">📊 AI Analysis</h5>
+                  <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Confidence
+                      <span class="badge bg-success">92.8%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Closest Match
+                      <span class="badge bg-info text-dark">Streptococcus Bacteria</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Match Rate
+                      <span class="badge bg-secondary">89.5%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Risk Level
+                      <span class="badge bg-warning text-dark">Moderate</span>
+                    </li>
+                  </ul>
+
+                  <h6 class="mt-4">📝 Explanation</h6>
+                  <p class="card-text">
+                    The AI model identified the cell structure as <strong>Streptococcus</strong>, which is a genus of spherical bacteria.
+                    This type of bacteria often appears in chains and is commonly associated with infections such as strep throat.
+                    The system made this prediction based on the shape, staining color, and clustering pattern found in the image.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript: Show image preview -->
+  <script>
+    function previewImage(event) {
+      const input = event.target;
+      const preview = document.getElementById('preview');
+      const reader = new FileReader();
+      reader.onload = function () {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+      };
+      if (input.files && input.files[0]) {
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
