@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduScopeAI</title>
+</head>
+
+<body>
+    <h2>Upload a Microscope Image</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Identify</button>
+    </form>
+    {% if result %}
+    <h3>Result: {{ result }}</h3>
+    <img src="/static/upload.jpg" width="300">
+    {% endif %}
+</body>
+
+</html>
